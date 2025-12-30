@@ -10,7 +10,7 @@ function loadPendingAppointments() {
                 tbody.innerHTML = '';
                 
                 if (data.data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7">No pending appointments</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No pending appointments</td></tr>';
                     return;
                 }
                 

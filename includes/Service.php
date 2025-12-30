@@ -1,6 +1,6 @@
 <?php
-require_once 'config/database.php';
-require_once 'config/config.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/config.php';
 
 class EmailService {
     private $conn;
@@ -177,11 +177,11 @@ class UserService {
         return false;
     }
     
-    public function authenticateUser($email, $password) {
+    public function authenticateUser($username, $password) {
         $sql = "SELECT id, email, password, role, first_name, last_name FROM users WHERE email = ?";
         
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
         

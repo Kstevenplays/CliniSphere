@@ -1,8 +1,12 @@
 <?php
-session_start();
+header('Content-Type: application/json');
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $_SESSION = [];
 session_destroy();
 
-header('Location: ../index.php');
+echo json_encode(['success' => true, 'message' => 'Logged out successfully']);
 exit;
-?>

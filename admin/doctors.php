@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+// Update session activity
+$_SESSION['last_activity'] = time();
+
+// Check if user is logged in and is admin
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit;
+}
+
+$adminName = $_SESSION['name'] ?? 'Admin';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +30,7 @@
                 <li><a href="index.php">Dashboard</a></li>
                 <li><a href="doctors.php" class="active">Doctors</a></li>
                 <li><a href="timeslots.php">Time Slots</a></li>
-                <li><a href="#" onclick="logout()">Logout</a></li>
+                <li><a href="#" onclick="logout()">👤 <?php echo htmlspecialchars($adminName); ?> (Logout)</a></li>
             </ul>
         </div>
     </nav>

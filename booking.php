@@ -1,9 +1,21 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $_SESSION['name'] ?? 'User';
+$userRole = $_SESSION['role'] ?? 'patient';
+
+// Redirect admins to admin panel
+if ($isLoggedIn && $userRole === 'admin') {
+    header('Location: admin/index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CliniSphere - Book Your Appointment</title>
+    <title>Book Appointment - CliniSphere</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,17 +26,27 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="index.php">Home</a></li>
+                <?php if ($isLoggedIn): ?>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                <?php endif; ?>
                 <li><a href="booking.php" class="active">Book Appointment</a></li>
-                <li id="user-menu" style="display: none;">
-                    <a href="#" onclick="toggleUserMenu()">My Account</a>
-                    <ul class="dropdown">
-                        <li><a href="my_appointments.php">My Appointments</a></li>
-                        <li><a href="#" onclick="logout()">Logout</a></li>
-                    </ul>
-                </li>
-                <li id="auth-menu">
-                    <a href="login.php">Login</a> | <a href="register.php">Register</a>
-                </li>
+                <?php if ($isLoggedIn): ?>
+                    <li><a href="my_appointments.php">My Appointments</a></li>
+                    <?php if ($userRole === 'admin'): ?>
+                        <li><a href="admin/index.php">Admin Panel</a></li>
+                    <?php endif; ?>
+                    <li>
+                        <a href="#" onclick="toggleUserMenu()">👤 <?php echo htmlspecialchars($userName); ?></a>
+                        <ul class="dropdown">
+                            <li><a href="profile.php">My Profile</a></li>
+                            <li><a href="#" onclick="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="login.php">Login</a> | <a href="register.php">Register</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -66,5 +88,41 @@
     </div>
 
     <script src="js/booking.js"></script>
+    <script>
+        function toggleUserMenu() {
+            const dropdown = document.querySelector('.dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                fetch('api/logout.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        window.location.href = 'index.php';
+                    })
+                    .catch(err => {
+                        console.error('Logout error:', err);
+                        window.location.href = 'index.php';
+                    });
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.dropdown');
+            const navMenu = document.querySelector('.nav-menu');
+            if (dropdown && !navMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

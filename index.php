@@ -1,3 +1,15 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $_SESSION['name'] ?? 'User';
+$userRole = $_SESSION['role'] ?? 'patient';
+
+// Redirect admins to admin panel
+if ($isLoggedIn && $userRole === 'admin') {
+    header('Location: admin/index.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,17 +26,24 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="index.php" class="active">Home</a></li>
-                <li><a href="booking.php">Book Appointment</a></li>
-                <li id="user-menu" style="display: none;">
-                    <a href="#" onclick="toggleUserMenu()">My Account</a>
-                    <ul class="dropdown">
-                        <li><a href="my_appointments.php">My Appointments</a></li>
-                        <li><a href="#" onclick="logout()">Logout</a></li>
-                    </ul>
-                </li>
-                <li id="auth-menu">
-                    <a href="login.php">Login</a> | <a href="register.php">Register</a>
-                </li>
+                <?php if ($isLoggedIn): ?>
+                    <li><a href="dashboard.php">Dashboard</a></li>
+                    <li><a href="booking.php">Book Appointment</a></li>
+                    <li><a href="my_appointments.php">My Appointments</a></li>
+                    <?php if ($userRole === 'admin'): ?>
+                        <li><a href="admin/index.php">Admin Panel</a></li>
+                    <?php endif; ?>
+                    <li>
+                        <a href="#" onclick="toggleUserMenu()">👤 <?php echo htmlspecialchars($userName); ?></a>
+                        <ul class="dropdown">
+                            <li><a href="profile.php">My Profile</a></li>
+                            <li><a href="#" onclick="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="register.php">Register</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -33,7 +52,7 @@
         <div class="container">
             <h1>Welcome to CliniSphere</h1>
             <p>Your trusted online clinic booking platform</p>
-            <a href="booking.php" class="btn btn-primary">Book Now</a>
+            <a href="<?php echo $isLoggedIn ? 'booking.php' : 'login.php'; ?>" class="btn btn-primary">Book Now</a>
         </div>
     </header>
 
@@ -82,6 +101,41 @@
 
     <script src="js/main.js"></script>
     <script>
+        function toggleUserMenu() {
+            const dropdown = document.querySelector('.dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                fetch('api/logout.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        window.location.href = 'index.php';
+                    })
+                    .catch(err => {
+                        console.error('Logout error:', err);
+                        window.location.href = 'index.php';
+                    });
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.dropdown');
+            const navMenu = document.querySelector('.nav-menu');
+            if (dropdown && !navMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         // Load preview of doctors on home page
         fetch('api/doctors.php')
             .then(res => res.json())
@@ -93,11 +147,13 @@
                     data.data.slice(0, 3).forEach(doctor => {
                         const doctorCard = document.createElement('div');
                         doctorCard.className = 'doctor-card';
+                        const isLoggedIn = <?php echo $isLoggedIn ? 'true' : 'false'; ?>;
+                        const bookUrl = isLoggedIn ? 'booking.php' : 'login.php';
                         doctorCard.innerHTML = `
                             <div class="doctor-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
                             <h3>${doctor.first_name} ${doctor.last_name}</h3>
                             <p class="specialization">${doctor.specialization || 'General Practitioner'}</p>
-                            <a href="booking.php" class="btn btn-small">Book Appointment</a>
+                            <a href="${bookUrl}" class="btn btn-small">Book Appointment</a>
                         `;
                         doctorsPreview.appendChild(doctorCard);
                     });
@@ -106,3 +162,4 @@
     </script>
 </body>
 </html>
+login

@@ -99,16 +99,23 @@ body {
     color: white;
     padding: 6rem 0;
     text-align: center;
+    animation: fadeInDown 0.8s ease-out;
 }
 
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    animation: slideInUp 0.8s ease-out 0.2s both;
 }
 
 .hero p {
     font-size: 1.3rem;
     margin-bottom: 2rem;
+    animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.hero .btn {
+    animation: enlargeForm 0.6s ease-out 0.6s both;
 }
 
 /* Buttons */
@@ -216,6 +223,7 @@ body {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: enlargeForm 0.6s ease-out;
 }
 
 .auth-box h2 {
@@ -271,6 +279,54 @@ body {
     }
 }
 
+@keyframes enlargeForm {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-box {
+    animation: enlargeForm 0.6s ease-out;
+}
+
 /* Features Section */
 .features {
     padding: 4rem 0;
@@ -283,6 +339,7 @@ body {
     margin-bottom: 3rem;
     color: #2c3e50;
     font-size: 2.5rem;
+    animation: fadeInUp 0.8s ease-out;
 }
 
 .features-grid,
@@ -301,6 +358,36 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
+    animation: enlargeForm 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.feature-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.feature-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.feature-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.feature-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.doctor-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.doctor-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.doctor-card:nth-child(3) {
+    animation-delay: 0.3s;
 }
 
 .feature-card:hover,

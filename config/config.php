@@ -1,4 +1,8 @@
 <?php
+// Error reporting - suppress warnings in production
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
 // Email Configuration
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
@@ -13,7 +17,7 @@ define('APP_URL', 'http://localhost/CliniSphere');
 define('TIMEZONE', 'UTC');
 
 // Session timeout (in minutes)
-define('SESSION_TIMEOUT', 30);
+define('SESSION_TIMEOUT', 120);
 
 // Appointment settings
 define('APPOINTMENT_SLOT_DURATION', 30); // in minutes
