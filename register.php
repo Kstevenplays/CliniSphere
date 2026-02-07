@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - CliniSphere</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
+                <i class="fas fa-hospital"></i>
                 <h1>CliniSphere</h1>
             </div>
             <ul class="nav-menu">
@@ -20,48 +22,132 @@
         </div>
     </nav>
 
-    <div class="auth-page">
+    <div class="auth-page auth-register">
         <div class="auth-container">
             <div class="auth-box">
-                <h2>CliniSphere Registration</h2>
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h1>Join CliniSphere</h1>
+                    <p class="auth-subtitle">Create an account to book appointments with trusted doctors</p>
+                </div>
                 
-                <form id="registerForm">
+                <form id="registerForm" class="auth-form">
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="first_name">First Name:</label>
-                            <input type="text" id="first_name" required>
+                        <div class="form-group floating-label">
+                            <input 
+                                type="text" 
+                                id="first_name" 
+                                name="first_name"
+                                placeholder="" 
+                                required
+                                aria-label="First Name"
+                                autocomplete="given-name">
+                            <label for="first_name">First Name</label>
                         </div>
-                        <div class="form-group">
-                            <label for="last_name">Last Name:</label>
-                            <input type="text" id="last_name" required>
+                        <div class="form-group floating-label">
+                            <input 
+                                type="text" 
+                                id="last_name" 
+                                name="last_name"
+                                placeholder="" 
+                                required
+                                aria-label="Last Name"
+                                autocomplete="family-name">
+                            <label for="last_name">Last Name</label>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" required>
+                    <div class="form-group floating-label">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            placeholder="" 
+                            required
+                            aria-label="Email Address"
+                            autocomplete="email">
+                        <label for="email">Email Address</label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="phone">Phone:</label>
-                        <input type="tel" id="phone">
+                    <div class="form-group floating-label">
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone"
+                            placeholder=""
+                            aria-label="Phone Number"
+                            autocomplete="tel">
+                        <label for="phone">Phone Number <span class="optional-label">(Optional)</span></label>
                     </div>
 
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" required>
+                    <div class="form-group floating-label">
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                placeholder="" 
+                                required
+                                aria-label="Password"
+                                autocomplete="new-password"
+                                minlength="8">
+                            <label for="password">Password</label>
+                            <button 
+                                type="button" 
+                                class="password-toggle" 
+                                id="togglePassword" 
+                                aria-label="Toggle password visibility">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
+                        <small class="form-hint">Minimum 8 characters required</small>
                     </div>
 
-                    <div class="form-group">
-                        <label for="confirm_password">Confirm Password:</label>
-                        <input type="password" id="confirm_password" required>
+                    <div class="form-group floating-label">
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="confirm_password" 
+                                name="confirm_password"
+                                placeholder="" 
+                                required
+                                aria-label="Confirm Password"
+                                autocomplete="new-password"
+                                minlength="8">
+                            <label for="confirm_password">Confirm Password</label>
+                            <button 
+                                type="button" 
+                                class="password-toggle" 
+                                id="toggleConfirmPassword" 
+                                aria-label="Toggle password visibility">
+                                <i class="fas fa-eye-slash"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary full-width">Register</button>
+                    <div class="form-agree">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" required>
+                            <span class="checkbox-text">
+                                I agree to the <a href="#" class="inline-link">Terms of Service</a> and <a href="#" class="inline-link">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-register">
+                        Create Account
+                    </button>
+
+                    <div id="message" class="message" role="alert" aria-live="polite" style="display: none;"></div>
                 </form>
 
-                <p class="auth-link">Already have an account? <a href="login.php">Login here</a></p>
-                <div id="message" class="message" style="display: none;"></div>
+                <div class="auth-footer">
+                    <p>Already have an account? 
+                        <a href="login.php" class="signup-link">Sign in here</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -113,6 +199,62 @@
                 console.error('Error:', error);
             });
         });
+
+        // Password toggle functionality
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener('click', function() {
+            const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+            confirmPasswordInput.type = type;
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+
+        // Floating label functionality
+        function initFloatingLabels() {
+            const floatingInputs = document.querySelectorAll('.floating-label input');
+            
+            floatingInputs.forEach(input => {
+                // Check on load if input has value
+                if (input.value) {
+                    input.classList.add('has-value');
+                }
+                
+                // Add class when input has value
+                input.addEventListener('input', function() {
+                    if (this.value) {
+                        this.classList.add('has-value');
+                    } else {
+                        this.classList.remove('has-value');
+                    }
+                });
+                
+                // Handle autofill
+                input.addEventListener('change', function() {
+                    if (this.value) {
+                        this.classList.add('has-value');
+                    }
+                });
+            });
+        }
+        
+        // Initialize floating labels on page load
+        initFloatingLabels();
+        
+        // Re-check after a short delay for autofill
+        setTimeout(initFloatingLabels, 100);
     </script>
 </body>
 </html>

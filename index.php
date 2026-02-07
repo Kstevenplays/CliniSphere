@@ -17,11 +17,13 @@ if ($isLoggedIn && $userRole === 'admin') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CliniSphere - Online Clinic Booking System</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
+                <i class="fas fa-hospital"></i>
                 <h1>CliniSphere</h1>
             </div>
             <ul class="nav-menu">
@@ -34,49 +36,102 @@ if ($isLoggedIn && $userRole === 'admin') {
                         <li><a href="admin/index.php">Admin Panel</a></li>
                     <?php endif; ?>
                     <li>
-                        <a href="#" onclick="toggleUserMenu()">👤 <?php echo htmlspecialchars($userName); ?></a>
+                        <a href="#" onclick="toggleUserMenu()" class="user-menu-toggle"><i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($userName); ?></a>
                         <ul class="dropdown">
-                            <li><a href="profile.php">My Profile</a></li>
-                            <li><a href="#" onclick="logout()">Logout</a></li>
+                            <li><a href="profile.php"><i class="fas fa-cog"></i> My Profile</a></li>
+                            <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </li>
                 <?php else: ?>
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
+                    <li><a href="register.php" class="btn-nav">Register</a></li>
                 <?php endif; ?>
             </ul>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="container">
-            <h1>Welcome to CliniSphere</h1>
-            <p>Your trusted online clinic booking platform</p>
-            <a href="<?php echo $isLoggedIn ? 'booking.php' : 'login.php'; ?>" class="btn btn-primary">Book Now</a>
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-badge">
+                    <i class="fas fa-award"></i>
+                    <span>Trusted by 50,000+ Patients</span>
+                </div>
+                <h1>Your Health,<br><span class="highlight-text">Our Priority</span></h1>
+                <p class="hero-subtitle">Book appointments with expert doctors instantly and securely. Access top-rated healthcare professionals from the comfort of your home.</p>
+                <div class="hero-buttons">
+                    <a href="<?php echo $isLoggedIn ? 'booking.php' : 'login.php'; ?>" class="btn btn-primary btn-hero">
+                        <i class="fas fa-calendar-check"></i> Book Appointment Now
+                    </a>
+                    <a href="#features" class="btn btn-secondary btn-hero-outline">
+                        <i class="fas fa-info-circle"></i> How It Works
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Expert Doctors</span>
+                        </div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Happy Patients</span>
+                        </div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Support Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
-            <h2>Why Choose CliniSphere?</h2>
+            <div class="section-header">
+                <h2>Why Choose CliniSphere?</h2>
+                <p>Experience healthcare reimagined for your convenience</p>
+            </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">📅</div>
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
                     <h3>Easy Scheduling</h3>
                     <p>Book appointments with our doctors at your convenience with real-time slot availability.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">✓</div>
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
                     <h3>Instant Confirmation</h3>
                     <p>Receive email confirmations and updates about your appointments immediately.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">👨‍⚕️</div>
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
                     <h3>Expert Doctors</h3>
                     <p>Access qualified healthcare professionals across various specializations.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                     <h3>Secure & Private</h3>
                     <p>Your health information is protected with industry-standard security measures.</p>
                 </div>
@@ -84,18 +139,42 @@ if ($isLoggedIn && $userRole === 'admin') {
         </div>
     </section>
 
-    <section class="doctors-preview">
+    <section class="cta-section">
         <div class="container">
-            <h2>Our Doctors</h2>
-            <div id="doctors-preview" class="doctors-grid">
-                <p>Loading doctors...</p>
-            </div>
+            <h2>Ready to Book an Appointment?</h2>
+            <p>Don't wait, get expert medical advice today</p>
+            <a href="<?php echo $isLoggedIn ? 'booking.php' : 'login.php'; ?>" class="btn btn-primary btn-lg">
+                <i class="fas fa-stethoscope"></i> Start Booking
+            </a>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 CliniSphere. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-hospital"></i> CliniSphere</h4>
+                    <p>Your trusted online clinic booking platform</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="<?php echo $isLoggedIn ? 'booking.php' : 'login.php'; ?>">Book Now</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +1-800-CLINIC</li>
+                        <li><i class="fas fa-envelope"></i> support@clinisphere.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CliniSphere. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
