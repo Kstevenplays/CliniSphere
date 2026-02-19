@@ -53,10 +53,6 @@ if ($isLoggedIn && $userRole === 'admin') {
     <header class="hero">
         <div class="hero-content">
             <div class="container">
-                <div class="hero-badge">
-                    <i class="fas fa-award"></i>
-                    <span>Trusted by 50,000+ Patients</span>
-                </div>
                 <h1>Your Health,<br><span class="highlight-text">Our Priority</span></h1>
                 <p class="hero-subtitle">Book appointments with expert doctors instantly and securely. Access top-rated healthcare professionals from the comfort of your home.</p>
                 <div class="hero-buttons">
@@ -66,35 +62,6 @@ if ($isLoggedIn && $userRole === 'admin') {
                     <a href="#features" class="btn btn-secondary btn-hero-outline">
                         <i class="fas fa-info-circle"></i> How It Works
                     </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="hero-stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-user-md"></i>
-                        </div>
-                        <div class="stat-content">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Expert Doctors</span>
-                        </div>
-                    </div>
-                    <div class="hero-stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="stat-content">
-                            <span class="stat-number">50K+</span>
-                            <span class="stat-label">Happy Patients</span>
-                        </div>
-                    </div>
-                    <div class="hero-stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-content">
-                            <span class="stat-number">24/7</span>
-                            <span class="stat-label">Support Available</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
